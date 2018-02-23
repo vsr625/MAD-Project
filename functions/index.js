@@ -78,12 +78,14 @@ exports.getrest = functions.https.onRequest((req, res) => {
 
 exports.getdetails = functions.https.onRequest((req, res)=>{
     var rest_id = req.param('rest-id')
+    var result
     if(rest_id){
         database.ref('/').child('restaurants').child(rest_id).once('value', (snapshot) =>{
-            var result = snapshot.val()
+            result = snapshot.val()
             result.id = snapshot.key
             console.log(result)
-            res.send(result)  
+        }).then(()=>{
+            res.send(result)
         })
     }else{
         res.send("Invalid request")
