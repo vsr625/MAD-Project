@@ -60,9 +60,10 @@ exports.getrest = functions.https.onRequest((req, res) => {
                 console.log(distance(curr_lat, curr_long, lat, long))
                 if (distance(curr_lat, curr_long, lat, long) < 5 && curr_time >= open_time && curr_time <= close_time) {
                     arr.push({
-                        id: childSnapshot.key,
-                        name: childSnapshot.val()["name"]
-
+                        'id': childSnapshot.key,
+                        'name': childSnapshot.val()["name"],
+                        'open-time': childSnapshot.val()['open-time'],
+                        'close-time': childSnapshot.val()['close-time']
                     })
                 }
             })
