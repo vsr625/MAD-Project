@@ -47,15 +47,18 @@ function toRad(Value) {
 exports.getrest = functions.https.onRequest((req, res) => {
     var list_of_res;
     const curr_lat = req.param('gps-lat'),
-        curr_long = req.param('gps-long')
-    if (curr_lat && curr_long) {
+        curr_long = req.param('gps-long'),
+        curr_time = req.param('curr-time')
+    if (curr_lat && curr_long && curr_time) {
         database.ref('restaurants').once('value', (snapshot) => {
             const arr = [];
             snapshot.forEach((childSnapshot) => {
                 var lat = childSnapshot.val()["gps-lat"],
-                    long = childSnapshot.val()["gps-long"]
+                    long = childSnapshot.val()["gps-long"],
+                    open_time = childSnapshot.val()["open-time"],
+                    close_time = childSnapshot.val()["close-time"]
                 console.log(distance(curr_lat, curr_long, lat, long))
-                if (distance(curr_lat, curr_long, lat, long) < 5) {
+                if (distance(curr_lat, curr_long, lat, long) < 5 && curr_time >= open_time && curr_time <= close_time) {
                     arr.push({
                         id: childSnapshot.key,
                         name: childSnapshot.val()["name"]
