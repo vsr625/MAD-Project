@@ -88,6 +88,6 @@ exports.getdetails = functions.https.onRequest((req, res)=>{
             res.send(result)
         })
     }else{
-        res.send("Invalid request")
+        res.send("Invalid request")//hjfdsgljkjgskjhgks
     }
 })
